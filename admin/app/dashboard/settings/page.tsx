@@ -50,7 +50,7 @@ export default function SettingsPage() {
     }
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, settingsType: string) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>, settingsType: string) => {
     const { name, value, type } = e.target
     const checked = (e.target as HTMLInputElement).checked
 
