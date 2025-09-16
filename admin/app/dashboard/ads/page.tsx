@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Plus, Edit, Trash2, Eye, MousePointer, Search, Filter, Upload, ToggleLeft, ToggleRight } from 'lucide-react'
+import { Plus, Edit, Trash2, Eye, MousePointer, Search, Filter, Upload, ToggleLeft, ToggleRight, Megaphone } from 'lucide-react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
