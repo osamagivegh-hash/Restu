@@ -1,0 +1,74 @@
+[
+  {
+    "name": "كباب مشوي",
+    "nameEn": "Grilled Kebab",
+    "description": "كباب مشوي طازج مع الأرز والسلطة",
+    "descriptionEn": "Fresh grilled kebab with rice and salad",
+    "price": 45,
+    "category": "main-courses",
+    "categoryAr": "أطباق رئيسية",
+    "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "preparationTime": 20,
+    "isFeatured": true
+  },
+  {
+    "name": "شاورما دجاج",
+    "nameEn": "Chicken Shawarma",
+    "description": "شاورما دجاج مع الخضار والصلصة الخاصة",
+    "descriptionEn": "Chicken shawarma with vegetables and special sauce",
+    "price": 35,
+    "category": "main-courses",
+    "categoryAr": "أطباق رئيسية",
+    "imageUrl": "https://images.unsplash.com/photo-1529042410759-befb1204b468?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "preparationTime": 15,
+    "isFeatured": false
+  },
+  {
+    "name": "حمص بالطحينة",
+    "nameEn": "Hummus with Tahini",
+    "description": "حمص كريمي مع الطحينة وزيت الزيتون",
+    "descriptionEn": "Creamy hummus with tahini and olive oil",
+    "price": 25,
+    "category": "appetizers",
+    "categoryAr": "مقبلات",
+    "imageUrl": "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "preparationTime": 10,
+    "isFeatured": false
+  },
+  {
+    "name": "باكلاوا",
+    "nameEn": "Baklava",
+    "description": "حلويات شرقية تقليدية مع العسل والجوز",
+    "descriptionEn": "Traditional Eastern sweets with honey and walnuts",
+    "price": 30,
+    "category": "desserts",
+    "categoryAr": "حلويات",
+    "imageUrl": "https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "preparationTime": 5,
+    "isFeatured": true
+  },
+  {
+    "name": "عصير برتقال طازج",
+    "nameEn": "Fresh Orange Juice",
+    "description": "عصير برتقال طازج مع قطع البرتقال",
+    "descriptionEn": "Fresh orange juice with orange pieces",
+    "price": 15,
+    "category": "beverages",
+    "categoryAr": "مشروبات",
+    "imageUrl": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "preparationTime": 5,
+    "isFeatured": false
+  },
+  {
+    "name": "مشاوي مشكلة",
+    "nameEn": "Mixed Grill",
+    "description": "مشاوي مشكلة من اللحم والدجاج مع الأرز",
+    "descriptionEn": "Mixed grill of meat and chicken with rice",
+    "price": 65,
+    "category": "specials",
+    "categoryAr": "أطباق خاصة",
+    "imageUrl": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "preparationTime": 30,
+    "isFeatured": true
+  }
+]

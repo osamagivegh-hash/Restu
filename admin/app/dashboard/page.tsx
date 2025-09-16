@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Users, MessageSquare, Briefcase, Utensils, TrendingUp, Clock } from 'lucide-react'
+import { Users, MessageSquare, Briefcase, Utensils, TrendingUp, Clock, Megaphone } from 'lucide-react'
 import axios from 'axios'
 
 interface DashboardStats {
@@ -9,6 +9,7 @@ interface DashboardStats {
   totalApplications: number
   totalMenuItems: number
   totalBookings: number
+  totalAds: number
   recentContacts: any[]
   recentApplications: any[]
 }
@@ -19,6 +20,7 @@ export default function Dashboard() {
     totalApplications: 0,
     totalMenuItems: 0,
     totalBookings: 0,
+    totalAds: 0,
     recentContacts: [],
     recentApplications: []
   })
@@ -30,9 +32,10 @@ export default function Dashboard() {
 
   const fetchDashboardData = async () => {
     try {
-      const [contactsRes, applicationsRes] = await Promise.all([
+      const [contactsRes, applicationsRes, adsRes] = await Promise.all([
         axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/contact?limit=5`),
-        axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/careers?limit=5`)
+        axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/careers?limit=5`),
+        axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/ads/admin`)
       ])
 
       setStats({
@@ -40,6 +43,7 @@ export default function Dashboard() {
         totalApplications: applicationsRes.data.data?.pagination?.totalApplications || 0,
         totalMenuItems: 6, // Static for now
         totalBookings: 0, // Will implement booking system
+        totalAds: adsRes.data.data?.total || 0,
         recentContacts: contactsRes.data.data?.contacts || [],
         recentApplications: applicationsRes.data.data?.careers || []
       })
@@ -73,10 +77,17 @@ export default function Dashboard() {
       change: '+2'
     },
     {
+      title: 'Ads & News',
+      value: stats.totalAds,
+      icon: Megaphone,
+      color: 'bg-purple-500',
+      change: '+5%'
+    },
+    {
       title: 'Bookings',
       value: stats.totalBookings,
       icon: Clock,
-      color: 'bg-purple-500',
+      color: 'bg-indigo-500',
       change: '+15%'
     }
   ]
@@ -97,7 +108,7 @@ export default function Dashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         {statCards.map((stat, index) => (
           <div key={index} className="card">
             <div className="flex items-center">

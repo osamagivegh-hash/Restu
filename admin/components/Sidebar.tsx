@@ -12,7 +12,8 @@ import {
   Settings,
   LogOut,
   Menu,
-  X
+  X,
+  Megaphone
 } from 'lucide-react'
 
 export default function Sidebar() {
@@ -24,6 +25,7 @@ export default function Sidebar() {
     { name: 'Contacts', href: '/dashboard/contacts', icon: MessageSquare },
     { name: 'Applications', href: '/dashboard/applications', icon: Briefcase },
     { name: 'Menu Management', href: '/dashboard/menu', icon: Utensils },
+    { name: 'Ads & News', href: '/dashboard/ads', icon: Megaphone },
     { name: 'Bookings', href: '/dashboard/bookings', icon: Calendar },
     { name: 'Settings', href: '/dashboard/settings', icon: Settings },
   ]

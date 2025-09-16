@@ -8,14 +8,17 @@
 /* الخطوط العربية الجميلة */
 .font-arabic {
   font-family: 'Cairo', 'Amiri', 'Scheherazade New', 'Arial', sans-serif;
+  font-weight: 500;
 }
 
 .font-arabic-elegant {
   font-family: 'Amiri', 'Scheherazade New', 'Cairo', 'Arial', sans-serif;
+  font-weight: 600;
 }
 
 .font-arabic-modern {
   font-family: 'Cairo', 'Arial', sans-serif;
+  font-weight: 500;
 }
 
 /* تحسينات للخط العربي */
@@ -29,8 +32,9 @@
 .arabic-heading {
   direction: rtl;
   text-align: right;
-  line-height: 1.6;
-  font-weight: 600;
+  line-height: 1.5;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 /* تحسينات للعرض */
@@ -68,11 +72,11 @@
 
 /* تحسينات للأزرار */
 .btn-primary {
-  @apply bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  @apply bg-primary-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-primary-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transform hover:scale-105 shadow-lg hover:shadow-xl;
 }
 
 .btn-secondary {
-  @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+  @apply bg-transparent border-2 border-primary-600 text-primary-600 px-8 py-4 rounded-xl font-semibold hover:bg-primary-600 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transform hover:scale-105;
 }
 
 /* تحسينات للبطاقات */
