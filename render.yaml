@@ -10,9 +10,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        fromDatabase:
-          name: oriental-restaurant-db
-          property: connectionString
+        value: mongodb+srv://osamagivegh:990099@cluster0.npzs81o.mongodb.net/oriental-restaurant?retryWrites=true&w=majority&appName=Cluster0
       - key: FRONTEND_URL
         value: https://oriental-restaurant-frontend.onrender.com
       - key: PORT
@@ -47,8 +45,5 @@ services:
         source: /*
         destination: /index.html
 
-# Database
-databases:
-  - name: oriental-restaurant-db
-    plan: free
-    databaseName: oriental-restaurant
+# Note: Using external MongoDB Atlas database
+# No local database needed since we're using MongoDB Atlas
