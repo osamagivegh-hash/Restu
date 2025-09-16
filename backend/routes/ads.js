@@ -83,8 +83,12 @@ router.get('/active', async (req, res) => {
       { endDate: { $gte: now } }
     ];
 
+    console.log('Ads filter:', filter);
+
     const ads = await Ad.find(filter)
       .sort({ createdAt: -1 });
+
+    console.log(`Found ${ads.length} active ads`);
 
     res.json({
       success: true,
@@ -95,7 +99,8 @@ router.get('/active', async (req, res) => {
     console.error('خطأ في جلب الإعلانات:', error);
     res.status(500).json({
       success: false,
-      message: 'حدث خطأ في الخادم'
+      message: 'حدث خطأ في الخادم',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });

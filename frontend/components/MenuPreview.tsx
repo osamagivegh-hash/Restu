@@ -51,11 +51,19 @@ export default function MenuPreview() {
         ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/meals`
         : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/meals/category/${selectedCategory}`
       
+      console.log('Fetching meals from:', url)
+      console.log('Backend URL:', process.env.NEXT_PUBLIC_BACKEND_URL)
+      
       const response = await fetch(url)
       const data = await response.json()
       
+      console.log('Meals response:', data)
+      
       if (data.success) {
         setMeals(data.data.meals || data.data)
+        console.log('Meals set:', data.data.meals || data.data)
+      } else {
+        console.error('API returned error:', data.message)
       }
     } catch (error) {
       console.error('خطأ في جلب الوجبات:', error)

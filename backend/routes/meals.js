@@ -137,7 +137,13 @@ router.post('/', upload.single('image'), mealValidation, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const { page = 1, limit = 12, category, featured, search } = req.query;
-    let filter = { isAvailable: true };
+    let filter = {};
+
+    // For admin panel, don't filter by isAvailable
+    // For frontend, filter by isAvailable
+    if (req.headers.referer && !req.headers.referer.includes('/dashboard')) {
+      filter.isAvailable = true;
+    }
 
     if (category) {
       filter.category = category;
@@ -155,12 +161,16 @@ router.get('/', async (req, res) => {
       ];
     }
 
+    console.log('Meals filter:', filter);
+
     const meals = await Meal.find(filter)
       .sort({ createdAt: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit);
 
     const total = await Meal.countDocuments(filter);
+
+    console.log(`Found ${meals.length} meals out of ${total} total`);
 
     res.json({
       success: true,
@@ -176,7 +186,8 @@ router.get('/', async (req, res) => {
     console.error('خطأ في جلب الوجبات:', error);
     res.status(500).json({
       success: false,
-      message: 'حدث خطأ في الخادم'
+      message: 'حدث خطأ في الخادم',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });

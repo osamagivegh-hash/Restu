@@ -29,10 +29,20 @@ export default function AdsSection({ position, className = '' }: AdsSectionProps
 
   const fetchAds = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ads/active?position=${position}`)
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ads/active?position=${position}`
+      console.log('Fetching ads from:', url)
+      console.log('Backend URL:', process.env.NEXT_PUBLIC_BACKEND_URL)
+      
+      const response = await fetch(url)
       const data = await response.json()
+      
+      console.log('Ads response:', data)
+      
       if (data.success) {
         setAds(data.data)
+        console.log('Ads set:', data.data)
+      } else {
+        console.error('API returned error:', data.message)
       }
     } catch (error) {
       console.error('خطأ في جلب الإعلانات:', error)

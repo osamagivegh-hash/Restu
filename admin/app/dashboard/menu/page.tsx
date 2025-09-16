@@ -8,13 +8,21 @@ import toast from 'react-hot-toast'
 interface MenuItem {
   _id?: string
   name: string
+  nameEn: string
   description: string
-  price: string
+  descriptionEn: string
+  price: number
   category: string
-  image: string
-  prepTime: string
-  rating: number
+  categoryAr: string
+  imageUrl: string
+  uploadedImage?: string
+  preparationTime: number
+  averageRating: number
+  totalReviews: number
   isAvailable: boolean
+  isFeatured: boolean
+  ingredients: string[]
+  allergens: string[]
 }
 
 export default function MenuPage() {
@@ -25,79 +33,36 @@ export default function MenuPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
 
-  const categories = ['All', 'Signature', 'Premium', 'Popular', 'Comfort', 'Appetizer', 'Main Course', 'Dessert']
-
-  const defaultMenuItems: MenuItem[] = [
-    {
-      name: "Peking Duck",
-      description: "Traditional Beijing-style roasted duck with crispy skin, served with pancakes and hoisin sauce",
-      price: "$45",
-      category: "Signature",
-      image: "https://images.unsplash.com/photo-1563379091339-03246963d4d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      prepTime: "45 min",
-      rating: 4.9,
-      isAvailable: true
-    },
-    {
-      name: "Sushi Omakase",
-      description: "Chef's selection of premium sushi and sashimi, featuring the freshest seasonal ingredients",
-      price: "$85",
-      category: "Premium",
-      image: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      prepTime: "30 min",
-      rating: 4.8,
-      isAvailable: true
-    },
-    {
-      name: "Pad Thai Royal",
-      description: "Authentic Thai stir-fried noodles with shrimp, tofu, and traditional spices",
-      price: "$22",
-      category: "Popular",
-      image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      prepTime: "20 min",
-      rating: 4.7,
-      isAvailable: true
-    },
-    {
-      name: "Korean BBQ Platter",
-      description: "Premium marinated beef and pork with traditional banchan sides",
-      price: "$38",
-      category: "Signature",
-      image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      prepTime: "35 min",
-      rating: 4.9,
-      isAvailable: true
-    },
-    {
-      name: "Dim Sum Selection",
-      description: "Traditional Cantonese steamed and fried dumplings with various fillings",
-      price: "$28",
-      category: "Popular",
-      image: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      prepTime: "25 min",
-      rating: 4.8,
-      isAvailable: true
-    },
-    {
-      name: "Ramen Deluxe",
-      description: "Rich tonkotsu broth with chashu pork, soft-boiled egg, and fresh vegetables",
-      price: "$18",
-      category: "Comfort",
-      image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      prepTime: "15 min",
-      rating: 4.6,
-      isAvailable: true
-    }
+  const categories = [
+    { value: 'appetizers', label: 'Appetizers', labelAr: 'مقبلات' },
+    { value: 'main-courses', label: 'Main Courses', labelAr: 'أطباق رئيسية' },
+    { value: 'desserts', label: 'Desserts', labelAr: 'حلويات' },
+    { value: 'beverages', label: 'Beverages', labelAr: 'مشروبات' },
+    { value: 'specials', label: 'Specials', labelAr: 'أطباق خاصة' }
   ]
 
   useEffect(() => {
-    // For now, use default menu items. In production, fetch from API
-    setMenuItems(defaultMenuItems)
-    setIsLoading(false)
+    fetchMenuItems()
   }, [])
+
+  const fetchMenuItems = async () => {
+    try {
+      setIsLoading(true)
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/meals`)
+      if (response.data.success) {
+        setMenuItems(response.data.data.meals || [])
+      }
+    } catch (error) {
+      console.error('Error fetching menu items:', error)
+      toast.error('Failed to fetch menu items')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const filteredMenuItems = menuItems.filter(item =>
     (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+     item.nameEn.toLowerCase().includes(searchTerm.toLowerCase()) ||
      item.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
     (categoryFilter === 'all' || item.category === categoryFilter)
   )
@@ -112,27 +77,37 @@ export default function MenuPage() {
     setIsModalOpen(true)
   }
 
-  const handleDeleteItem = (itemName: string) => {
-    if (window.confirm(`Are you sure you want to delete "${itemName}"?`)) {
-      setMenuItems(prev => prev.filter(item => item.name !== itemName))
-      toast.success('Menu item deleted successfully')
+  const handleDeleteItem = async (itemId: string) => {
+    if (window.confirm('Are you sure you want to delete this menu item?')) {
+      try {
+        await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/meals/${itemId}`)
+        toast.success('Menu item deleted successfully')
+        fetchMenuItems()
+      } catch (error) {
+        console.error('Error deleting menu item:', error)
+        toast.error('Failed to delete menu item')
+      }
     }
   }
 
-  const handleSaveItem = (itemData: MenuItem) => {
-    if (editingItem) {
-      // Update existing item
-      setMenuItems(prev => prev.map(item => 
-        item.name === editingItem.name ? { ...itemData, _id: item._id } : item
-      ))
-      toast.success('Menu item updated successfully')
-    } else {
-      // Add new item
-      setMenuItems(prev => [...prev, { ...itemData, _id: Date.now().toString() }])
-      toast.success('Menu item added successfully')
+  const handleSaveItem = async (itemData: MenuItem) => {
+    try {
+      if (editingItem) {
+        // Update existing item
+        await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/meals/${editingItem._id}`, itemData)
+        toast.success('Menu item updated successfully')
+      } else {
+        // Add new item
+        await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/meals`, itemData)
+        toast.success('Menu item added successfully')
+      }
+      setIsModalOpen(false)
+      setEditingItem(null)
+      fetchMenuItems()
+    } catch (error) {
+      console.error('Error saving menu item:', error)
+      toast.error('Failed to save menu item')
     }
-    setIsModalOpen(false)
-    setEditingItem(null)
   }
 
   if (isLoading) {
@@ -178,9 +153,10 @@ export default function MenuPage() {
               onChange={(e) => setCategoryFilter(e.target.value)}
               className="input-field"
             >
+              <option value="all">All Categories</option>
               {categories.map(category => (
-                <option key={category} value={category === 'All' ? 'all' : category}>
-                  {category}
+                <option key={category.value} value={category.value}>
+                  {category.label}
                 </option>
               ))}
             </select>
@@ -194,35 +170,43 @@ export default function MenuPage() {
           <div key={item._id || index} className="card">
             <div className="relative">
               <img
-                src={item.image}
+                src={item.uploadedImage || item.imageUrl}
                 alt={item.name}
                 className="w-full h-48 object-cover rounded-lg mb-4"
               />
               <div className="absolute top-2 left-2">
                 <span className="bg-primary-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                  {item.category}
+                  {item.categoryAr}
                 </span>
               </div>
-              <div className="absolute top-2 right-2">
+              <div className="absolute top-2 right-2 flex flex-col gap-1">
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                   item.isAvailable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                 }`}>
                   {item.isAvailable ? 'Available' : 'Unavailable'}
                 </span>
+                {item.isFeatured && (
+                  <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
+                    Featured
+                  </span>
+                )}
               </div>
             </div>
             
             <div className="space-y-2">
               <div className="flex justify-between items-start">
-                <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
-                <span className="text-xl font-bold text-primary-600">{item.price}</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
+                  <p className="text-sm text-gray-500">{item.nameEn}</p>
+                </div>
+                <span className="text-xl font-bold text-primary-600">{item.price} ر.س</span>
               </div>
               
               <p className="text-gray-600 text-sm line-clamp-2">{item.description}</p>
               
               <div className="flex items-center justify-between text-sm text-gray-500">
-                <span>⏱️ {item.prepTime}</span>
-                <span>⭐ {item.rating}</span>
+                <span>⏱️ {item.preparationTime} min</span>
+                <span>⭐ {item.averageRating} ({item.totalReviews})</span>
               </div>
             </div>
             
@@ -235,7 +219,7 @@ export default function MenuPage() {
                 Edit
               </button>
               <button
-                onClick={() => handleDeleteItem(item.name)}
+                onClick={() => handleDeleteItem(item._id!)}
                 className="btn-danger"
               >
                 <Trash2 className="h-4 w-4" />
@@ -272,13 +256,21 @@ function MenuItemModal({
 }) {
   const [formData, setFormData] = useState<MenuItem>({
     name: item?.name || '',
+    nameEn: item?.nameEn || '',
     description: item?.description || '',
-    price: item?.price || '',
-    category: item?.category || 'Popular',
-    image: item?.image || '',
-    prepTime: item?.prepTime || '',
-    rating: item?.rating || 4.5,
-    isAvailable: item?.isAvailable ?? true
+    descriptionEn: item?.descriptionEn || '',
+    price: item?.price || 0,
+    category: item?.category || 'appetizers',
+    categoryAr: item?.categoryAr || 'مقبلات',
+    imageUrl: item?.imageUrl || '',
+    uploadedImage: item?.uploadedImage || '',
+    preparationTime: item?.preparationTime || 15,
+    averageRating: item?.averageRating || 0,
+    totalReviews: item?.totalReviews || 0,
+    isAvailable: item?.isAvailable ?? true,
+    isFeatured: item?.isFeatured ?? false,
+    ingredients: item?.ingredients || [],
+    allergens: item?.allergens || []
   })
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -288,10 +280,26 @@ function MenuItemModal({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
-    }))
+    setFormData(prev => {
+      const newData = {
+        ...prev,
+        [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+      }
+      
+      // Auto-set categoryAr when category changes
+      if (name === 'category') {
+        const categoryMap: { [key: string]: string } = {
+          'appetizers': 'مقبلات',
+          'main-courses': 'أطباق رئيسية',
+          'desserts': 'حلويات',
+          'beverages': 'مشروبات',
+          'specials': 'أطباق خاصة'
+        }
+        newData.categoryAr = categoryMap[value] || 'مقبلات'
+      }
+      
+      return newData
+    })
   }
 
   return (
@@ -310,7 +318,7 @@ function MenuItemModal({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Name *
+                Name (Arabic) *
               </label>
               <input
                 type="text"
@@ -319,39 +327,73 @@ function MenuItemModal({
                 onChange={handleInputChange}
                 required
                 className="input-field"
+                placeholder="اسم الوجبة بالعربية"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price *
+                Name (English) *
               </label>
               <input
                 type="text"
-                name="price"
-                value={formData.price}
+                name="nameEn"
+                value={formData.nameEn}
                 onChange={handleInputChange}
                 required
                 className="input-field"
-                placeholder="$25"
+                placeholder="Meal name in English"
               />
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description *
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              required
-              rows={3}
-              className="input-field"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Description (Arabic) *
+              </label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                required
+                rows={3}
+                className="input-field"
+                placeholder="وصف الوجبة بالعربية"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Description (English) *
+              </label>
+              <textarea
+                name="descriptionEn"
+                value={formData.descriptionEn}
+                onChange={handleInputChange}
+                required
+                rows={3}
+                className="input-field"
+                placeholder="Meal description in English"
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Price (SAR) *
+              </label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleInputChange}
+                required
+                min="0"
+                step="0.01"
+                className="input-field"
+                placeholder="25.00"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Category *
@@ -363,43 +405,26 @@ function MenuItemModal({
                 required
                 className="input-field"
               >
-                <option value="Signature">Signature</option>
-                <option value="Premium">Premium</option>
-                <option value="Popular">Popular</option>
-                <option value="Comfort">Comfort</option>
-                <option value="Appetizer">Appetizer</option>
-                <option value="Main Course">Main Course</option>
-                <option value="Dessert">Dessert</option>
+                <option value="appetizers">Appetizers</option>
+                <option value="main-courses">Main Courses</option>
+                <option value="desserts">Desserts</option>
+                <option value="beverages">Beverages</option>
+                <option value="specials">Specials</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Prep Time *
-              </label>
-              <input
-                type="text"
-                name="prepTime"
-                value={formData.prepTime}
-                onChange={handleInputChange}
-                required
-                className="input-field"
-                placeholder="30 min"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Rating *
+                Prep Time (minutes) *
               </label>
               <input
                 type="number"
-                name="rating"
-                value={formData.rating}
+                name="preparationTime"
+                value={formData.preparationTime}
                 onChange={handleInputChange}
                 required
                 min="1"
-                max="5"
-                step="0.1"
                 className="input-field"
+                placeholder="15"
               />
             </div>
           </div>
@@ -410,8 +435,8 @@ function MenuItemModal({
             </label>
             <input
               type="url"
-              name="image"
-              value={formData.image}
+              name="imageUrl"
+              value={formData.imageUrl}
               onChange={handleInputChange}
               required
               className="input-field"
@@ -419,17 +444,66 @@ function MenuItemModal({
             />
           </div>
 
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              name="isAvailable"
-              checked={formData.isAvailable}
-              onChange={handleInputChange}
-              className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-            />
-            <label className="ml-2 block text-sm text-gray-900">
-              Available for order
-            </label>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Ingredients (comma-separated)
+              </label>
+              <input
+                type="text"
+                name="ingredients"
+                value={formData.ingredients.join(', ')}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  ingredients: e.target.value.split(',').map(ing => ing.trim()).filter(ing => ing)
+                }))}
+                className="input-field"
+                placeholder="ingredient1, ingredient2, ingredient3"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Allergens (comma-separated)
+              </label>
+              <input
+                type="text"
+                name="allergens"
+                value={formData.allergens.join(', ')}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  allergens: e.target.value.split(',').map(all => all.trim()).filter(all => all)
+                }))}
+                className="input-field"
+                placeholder="nuts, dairy, gluten"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="isAvailable"
+                checked={formData.isAvailable}
+                onChange={handleInputChange}
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+              />
+              <label className="ml-2 block text-sm text-gray-900">
+                Available for order
+              </label>
+            </div>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="isFeatured"
+                checked={formData.isFeatured}
+                onChange={handleInputChange}
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+              />
+              <label className="ml-2 block text-sm text-gray-900">
+                Featured item
+              </label>
+            </div>
           </div>
 
           <div className="flex gap-4 pt-4">
