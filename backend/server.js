@@ -57,6 +57,27 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Static files for uploaded CVs
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Health check endpoint (should be first)
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    message: 'Server is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Routes
+app.use('/api/contact', contactRoutes);
+app.use('/api/careers', careersRoutes);
+app.use('/api/admin', adminRoutes);
+
+// Debug: Log registered routes
+console.log('Registered routes:');
+console.log('- /api/health (GET)');
+console.log('- /api/contact/*');
+console.log('- /api/careers/*');
+console.log('- /api/admin/*');
+
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/oriental-restaurant')
 .then(() => {
@@ -65,20 +86,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/oriental-
 .catch((error) => {
   console.error('MongoDB connection error:', error);
   process.exit(1);
-});
-
-// Routes
-app.use('/api/contact', contactRoutes);
-app.use('/api/careers', careersRoutes);
-app.use('/api/admin', adminRoutes);
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    status: 'OK',
-    message: 'Server is running',
-    timestamp: new Date().toISOString()
-  });
 });
 
 // Error handling middleware
