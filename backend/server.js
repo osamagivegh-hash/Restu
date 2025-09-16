@@ -15,7 +15,7 @@ const adsRoutes = require('./routes/ads');
 const mealsRoutes = require('./routes/meals');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
 // Security middleware
 app.use(helmet());
