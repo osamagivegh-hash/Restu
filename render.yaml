@@ -1,0 +1,54 @@
+services:
+  # Backend API Service
+  - type: web
+    name: oriental-restaurant-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        fromDatabase:
+          name: oriental-restaurant-db
+          property: connectionString
+      - key: FRONTEND_URL
+        value: https://oriental-restaurant-frontend.onrender.com
+      - key: PORT
+        value: 10000
+    healthCheckPath: /api/health
+
+  # Main Frontend Service
+  - type: web
+    name: oriental-restaurant-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/out
+    envVars:
+      - key: NEXT_PUBLIC_BACKEND_URL
+        value: https://oriental-restaurant-backend.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # Admin Panel Service
+  - type: web
+    name: oriental-restaurant-admin
+    env: static
+    buildCommand: cd admin && npm install && npm run build
+    staticPublishPath: admin/out
+    envVars:
+      - key: NEXT_PUBLIC_BACKEND_URL
+        value: https://oriental-restaurant-backend.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+# Database
+databases:
+  - name: oriental-restaurant-db
+    plan: free
+    databaseName: oriental-restaurant
