@@ -30,7 +30,9 @@ const allowedOrigins = [
   process.env.FRONTEND_URL || 'http://localhost:3000',
   'http://localhost:3002', // Admin panel
   'http://localhost:3000', // Main frontend
-  'http://localhost:3001'  // Alternative frontend port
+  'http://localhost:3001', // Alternative frontend port
+  'https://oriental-restaurant-frontend.onrender.com', // Production frontend
+  'https://oriental-restaurant-admin.onrender.com'     // Production admin panel
 ];
 
 app.use(cors({
