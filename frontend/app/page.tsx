@@ -13,7 +13,7 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen font-arabic">
       <Navigation isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       <Hero />
       <About />

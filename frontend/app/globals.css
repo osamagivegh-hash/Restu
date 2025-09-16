@@ -1,7 +1,117 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@200;300;400;500;600;700;800;900&family=Scheherazade+New:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* الخطوط العربية الجميلة */
+.font-arabic {
+  font-family: 'Cairo', 'Amiri', 'Scheherazade New', 'Arial', sans-serif;
+}
+
+.font-arabic-elegant {
+  font-family: 'Amiri', 'Scheherazade New', 'Cairo', 'Arial', sans-serif;
+}
+
+.font-arabic-modern {
+  font-family: 'Cairo', 'Arial', sans-serif;
+}
+
+/* تحسينات للخط العربي */
+.arabic-text {
+  direction: rtl;
+  text-align: right;
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+}
+
+.arabic-heading {
+  direction: rtl;
+  text-align: right;
+  line-height: 1.6;
+  font-weight: 600;
+}
+
+/* تحسينات للعرض */
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+/* تحسينات للصور */
+.image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.image-container img {
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+  transform: scale(1.05);
+}
+
+/* تحسينات للنماذج */
+.form-input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+}
+
+.form-textarea {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 resize-none;
+}
+
+/* تحسينات للأزرار */
+.btn-primary {
+  @apply bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+}
+
+/* تحسينات للبطاقات */
+.card {
+  @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300;
+}
+
+/* تحسينات للنجوم */
+.star-rating {
+  @apply flex items-center space-x-1 space-x-reverse;
+}
+
+.star {
+  @apply text-yellow-400 hover:text-yellow-500 cursor-pointer transition-colors duration-200;
+}
+
+.star.filled {
+  @apply text-yellow-500;
+}
+
+/* تحسينات للتنقل */
+.nav-link {
+  @apply text-gray-700 hover:text-primary-600 transition-colors duration-200 font-medium;
+}
+
+.nav-link.active {
+  @apply text-primary-600;
+}
+
+/* تحسينات للعرض المتجاوب */
+@media (max-width: 768px) {
+  .arabic-text {
+    line-height: 1.6;
+  }
+  
+  .arabic-heading {
+    line-height: 1.4;
+  }
+}
 
 @layer base {
   html {

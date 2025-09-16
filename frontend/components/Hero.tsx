@@ -29,56 +29,60 @@ export default function Hero() {
           <div className="max-w-4xl mx-auto">
             {/* Rating Badge */}
             <div className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-8">
-              <Star className="w-5 h-5 text-gold-400 fill-current mr-2" />
-              <span className="text-sm font-medium">4.9/5 Rating • 500+ Reviews</span>
+              <Star className="w-5 h-5 text-gold-400 fill-current ml-2" />
+              <span className="text-sm font-medium font-arabic">تقييم 4.9/5 • 500+ تقييم</span>
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 text-shadow-lg">
-              Authentic
-              <span className="block text-gradient">Oriental Cuisine</span>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 text-shadow-lg font-arabic-elegant arabic-heading">
+              المطبخ الشرقي
+              <span className="block text-gradient">الأصيل</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xl sm:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto leading-relaxed">
-              Experience the finest flavors of the East in an elegant atmosphere. 
-              Where tradition meets innovation in every dish.
+            <p className="text-xl sm:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto leading-relaxed font-arabic arabic-text">
+              استمتع بأرقى نكهات الشرق في أجواء أنيقة. 
+              حيث تلتقي التقاليد بالابتكار في كل طبق.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <button 
                 onClick={() => scrollToSection('menu')}
-                className="btn-primary text-lg px-10 py-4"
+                className="btn-primary text-lg px-8 py-4 font-arabic"
               >
-                Explore Menu
+                تصفح قائمة الطعام
               </button>
               <button 
                 onClick={() => scrollToSection('contact')}
-                className="btn-secondary text-lg px-10 py-4 border-white text-white hover:bg-white hover:text-dark-900"
+                className="btn-secondary text-lg px-8 py-4 font-arabic"
               >
-                Make Reservation
+                احجز طاولة
               </button>
             </div>
 
-            {/* Info Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                <Clock className="w-8 h-8 text-gold-400 mx-auto mb-3" />
-                <h3 className="font-semibold text-lg mb-2">Open Daily</h3>
-                <p className="text-gray-300 text-sm">11:00 AM - 10:00 PM</p>
+            {/* Features */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+              <div className="flex items-center justify-center space-x-3 space-x-reverse bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <Clock className="w-6 h-6 text-gold-400" />
+                <div className="text-right">
+                  <p className="text-sm font-medium font-arabic">مفتوح يومياً</p>
+                  <p className="text-xs text-gray-300 font-arabic">11:00 ص - 11:00 م</p>
+                </div>
               </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                <MapPin className="w-8 h-8 text-gold-400 mx-auto mb-3" />
-                <h3 className="font-semibold text-lg mb-2">Prime Location</h3>
-                <p className="text-gray-300 text-sm">Downtown District</p>
+              <div className="flex items-center justify-center space-x-3 space-x-reverse bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <MapPin className="w-6 h-6 text-gold-400" />
+                <div className="text-right">
+                  <p className="text-sm font-medium font-arabic">الموقع</p>
+                  <p className="text-xs text-gray-300 font-arabic">شارع الشرق، وسط البلد</p>
+                </div>
               </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                <Star className="w-8 h-8 text-gold-400 mx-auto mb-3" />
-                <h3 className="font-semibold text-lg mb-2">Award Winning</h3>
-                <p className="text-gray-300 text-sm">Best Oriental 2023</p>
+              <div className="flex items-center justify-center space-x-3 space-x-reverse bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <Star className="w-6 h-6 text-gold-400" />
+                <div className="text-right">
+                  <p className="text-sm font-medium font-arabic">تقييم ممتاز</p>
+                  <p className="text-xs text-gray-300 font-arabic">4.9/5 من العملاء</p>
+                </div>
               </div>
             </div>
           </div>
@@ -89,7 +93,7 @@ export default function Hero() {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
         <button
           onClick={() => scrollToSection('about')}
-          className="text-white hover:text-gold-400 transition-colors duration-300 animate-bounce"
+          className="animate-bounce text-white hover:text-gold-400 transition-colors duration-300"
         >
           <ChevronDown size={32} />
         </button>
@@ -97,4 +101,3 @@ export default function Hero() {
     </section>
   )
 }
-

@@ -35,45 +35,45 @@ export default function Navigation({ isMenuOpen, setIsMenuOpen }: NavigationProp
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-3xl font-bold text-gradient">
-              Golden Dragon
+            <h1 className="text-3xl font-bold text-gradient font-arabic-elegant">
+              التنين الذهبي
             </h1>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8 space-x-reverse">
             <button
               onClick={() => scrollToSection('home')}
-              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300"
+              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300 arabic-text"
             >
-              Home
+              الرئيسية
             </button>
             <button
               onClick={() => scrollToSection('about')}
-              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300"
+              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300 arabic-text"
             >
-              About
+              من نحن
             </button>
             <button
               onClick={() => scrollToSection('menu')}
-              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300"
+              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300 arabic-text"
             >
-              Menu
+              قائمة الطعام
             </button>
             <button
               onClick={() => scrollToSection('careers')}
-              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300"
+              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300 arabic-text"
             >
-              Careers
+              الوظائف
             </button>
             <button
               onClick={() => scrollToSection('contact')}
-              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300"
+              className="text-dark-700 hover:text-primary-600 font-medium transition-colors duration-300 arabic-text"
             >
-              Contact
+              اتصل بنا
             </button>
-            <button className="btn-primary">
-              Reserve Table
+            <button className="btn-primary font-arabic">
+              احجز طاولة
             </button>
           </div>
 
@@ -92,36 +92,36 @@ export default function Navigation({ isMenuOpen, setIsMenuOpen }: NavigationProp
             <div className="px-4 py-6 space-y-4">
               <button
                 onClick={() => scrollToSection('home')}
-                className="block w-full text-left text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300"
+                className="block w-full text-right text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300 arabic-text"
               >
-                Home
+                الرئيسية
               </button>
               <button
                 onClick={() => scrollToSection('about')}
-                className="block w-full text-left text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300"
+                className="block w-full text-right text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300 arabic-text"
               >
-                About
+                من نحن
               </button>
               <button
                 onClick={() => scrollToSection('menu')}
-                className="block w-full text-left text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300"
+                className="block w-full text-right text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300 arabic-text"
               >
-                Menu
+                قائمة الطعام
               </button>
               <button
                 onClick={() => scrollToSection('careers')}
-                className="block w-full text-left text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300"
+                className="block w-full text-right text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300 arabic-text"
               >
-                Careers
+                الوظائف
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="block w-full text-left text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300"
+                className="block w-full text-right text-dark-700 hover:text-primary-600 font-medium py-2 transition-colors duration-300 arabic-text"
               >
-                Contact
+                اتصل بنا
               </button>
-              <button className="btn-primary w-full mt-4">
-                Reserve Table
+              <button className="btn-primary w-full mt-4 font-arabic">
+                احجز طاولة
               </button>
             </div>
           </div>
@@ -130,4 +130,3 @@ export default function Navigation({ isMenuOpen, setIsMenuOpen }: NavigationProp
     </nav>
   )
 }
-
